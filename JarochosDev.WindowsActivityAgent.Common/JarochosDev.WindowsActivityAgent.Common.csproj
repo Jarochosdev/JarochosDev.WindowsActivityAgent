@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{64CC8396-C8E7-41DC-8BDF-1A644CE9CF1E}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>JarochosDev.WindowsActivityAgent</RootNamespace>
-    <AssemblyName>JarochosDev.WindowsActivityAgent</AssemblyName>
+    <ProjectGuid>{8A8005F7-3D86-446A-89F6-91162C43855A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JarochosDev.WindowsActivityAgent.Common</RootNamespace>
+    <AssemblyName>JarochosDev.WindowsActivityAgent.Common</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -43,17 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Loggers\DisplayLogger.cs" />
+    <Compile Include="Loggers\FileLogger.cs" />
+    <Compile Include="Loggers\ICustomLogger.cs" />
+    <Compile Include="Loggers\LogManager.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\JarochosDev.WindowsActivityAgent.Common\JarochosDev.WindowsActivityAgent.Common.csproj">
-      <Project>{8a8005f7-3d86-446a-89f6-91162c43855a}</Project>
-      <Name>JarochosDev.WindowsActivityAgent.Common</Name>
-    </ProjectReference>
+    <Compile Include="WindowsSystemEventListener.cs" />
+    <Compile Include="WindowsSystemEventService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
