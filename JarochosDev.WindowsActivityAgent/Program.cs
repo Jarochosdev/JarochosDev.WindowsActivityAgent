@@ -22,7 +22,6 @@ namespace JarochosDev.WindowsActivityAgent
             var windowsSystemEventService = new WindowsSystemEventService(new WindowsSystemEventListener(logManager));
             windowsSystemEventService.Start();
 
-            Console.WriteLine("Fernando Villafuerte");
             Console.ReadLine();
             windowsSystemEventService.Stop();
         }
