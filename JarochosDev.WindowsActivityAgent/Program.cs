@@ -10,8 +10,7 @@ namespace JarochosDev.WindowsActivityAgent
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hi Jarochos!!!");
-            
+            Console.WriteLine("Testing Changes!!!");            
         }
     }
 }
