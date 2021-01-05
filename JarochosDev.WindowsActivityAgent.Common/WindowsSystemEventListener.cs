@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Win32;
+using System.Text;
 using JarochosDev.WindowsActivityAgent.Common.Loggers;
+using System.Linq;
+using System.Net;
 
 namespace JarochosDev.WindowsActivityAgent.Common
 {
@@ -22,9 +25,13 @@ namespace JarochosDev.WindowsActivityAgent.Common
             SystemEvents.SessionEnded += SystemEventsOnSessionEnded;
         }
 
-        private void SystemEventsOnSessionEnded(object sender, SessionEndedEventArgs e)
-        {             
-            LogManager.Log($"SessionEndedEvent:{e.Reason}");           
+        private void SystemEventsOnSessionEnded( object sender, SessionEndedEventArgs e)
+        {
+            var userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\').Last();
+            var pcName = Dns.GetHostName();
+            var ip = Dns.GetHostByName(pcName).AddressList[0].ToString(); ;
+            var message = $"SessionEndedEvent:{e.Reason},{userName},{pcName},{ip}";
+            LogManager.Log(message);           
         }
 
         private void SystemEventsOnSessionSwitch(object sender, SessionSwitchEventArgs e)
