@@ -36,12 +36,20 @@ namespace JarochosDev.WindowsActivityAgent.Common
 
         private void SystemEventsOnSessionSwitch(object sender, SessionSwitchEventArgs e)
         {
-            LogManager.Log($"SessionSwitchEvent:{e.Reason}");
+            var userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\').Last();
+            var pcName = Dns.GetHostName();
+            var ip = Dns.GetHostByName(pcName).AddressList[0].ToString(); ;
+            var message = $"SessionSwitchEvent:{e.Reason},{userName},{pcName},{ip}";
+            LogManager.Log(message);                       
         }
 
         private void SystemEventsOnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
         {            
-            LogManager.Log($"PowerModeChangedEvent:{e.Mode}");            
+            var userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\').Last();
+            var pcName = Dns.GetHostName();
+            var ip = Dns.GetHostByName(pcName).AddressList[0].ToString(); ;
+            var message = $"PowerModeChangedEvent:{e.Mode},{userName},{pcName},{ip}";
+            LogManager.Log(message);                                   
         }        
 
         public void Stop()
