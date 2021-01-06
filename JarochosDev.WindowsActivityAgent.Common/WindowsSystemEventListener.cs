@@ -12,6 +12,9 @@ namespace JarochosDev.WindowsActivityAgent.Common
     public class WindowsSystemEventListener
     {
         public LogManager LogManager { get; }
+        public string UserName { get; set; }
+        public string PcName { get; set; }
+        public string IP { get; set; }
 
         public WindowsSystemEventListener(LogManager logManager)
         {
@@ -23,32 +26,30 @@ namespace JarochosDev.WindowsActivityAgent.Common
             SystemEvents.PowerModeChanged += SystemEventsOnPowerModeChanged;
             SystemEvents.SessionSwitch += SystemEventsOnSessionSwitch;
             SystemEvents.SessionEnded += SystemEventsOnSessionEnded;
+            PcPropierties();
+        }
+        private void PcPropierties()
+        {
+            UserName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\').Last();
+            PcName = Dns.GetHostName();
+            IP = Dns.GetHostByName(PcName).AddressList[0].ToString(); ;
         }
 
         private void SystemEventsOnSessionEnded( object sender, SessionEndedEventArgs e)
         {
-            var userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\').Last();
-            var pcName = Dns.GetHostName();
-            var ip = Dns.GetHostByName(pcName).AddressList[0].ToString(); ;
-            var message = $"SessionEndedEvent:{e.Reason},{userName},{pcName},{ip}";
+            var message = $"SessionEndedEvent:{e.Reason},{UserName},{PcName},{IP}";
             LogManager.Log(message);           
         }
 
         private void SystemEventsOnSessionSwitch(object sender, SessionSwitchEventArgs e)
         {
-            var userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\').Last();
-            var pcName = Dns.GetHostName();
-            var ip = Dns.GetHostByName(pcName).AddressList[0].ToString(); ;
-            var message = $"SessionSwitchEvent:{e.Reason},{userName},{pcName},{ip}";
+            var message = $"SessionSwitchEvent:{e.Reason},{UserName},{PcName},{IP}";
             LogManager.Log(message);                       
         }
 
         private void SystemEventsOnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
-        {            
-            var userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\').Last();
-            var pcName = Dns.GetHostName();
-            var ip = Dns.GetHostByName(pcName).AddressList[0].ToString(); ;
-            var message = $"PowerModeChangedEvent:{e.Mode},{userName},{pcName},{ip}";
+        {
+            var message = $"PowerModeChangedEvent:{e.Mode},{UserName},{PcName},{IP}";
             LogManager.Log(message);                                   
         }        
 
