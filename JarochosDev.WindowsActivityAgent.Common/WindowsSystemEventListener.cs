@@ -15,7 +15,7 @@ namespace JarochosDev.WindowsActivityAgent.Common
         public string UserName { get; private set; }
         public string PcName { get; private set; }
         public string IP { get; private set; }
-
+        public bool Control { get; private set; }
         public WindowsSystemEventListener(LogManager logManager)
         {
             LogManager = logManager;
@@ -23,12 +23,17 @@ namespace JarochosDev.WindowsActivityAgent.Common
 
         public void Start()
         {
-            SystemEvents.PowerModeChanged += SystemEventsOnPowerModeChanged;
-            SystemEvents.SessionSwitch += SystemEventsOnSessionSwitch;
-            SystemEvents.SessionEnded += SystemEventsOnSessionEnded;
-            InitializePropierties();
+            if (Control != true)
+            {
+                SystemEvents.PowerModeChanged += SystemEventsOnPowerModeChanged;
+                SystemEvents.SessionSwitch += SystemEventsOnSessionSwitch;
+                SystemEvents.SessionEnded += SystemEventsOnSessionEnded;
+                InitializeProperties();
+                Control = true;
+            }
         }
-        private void InitializePropierties()
+
+        private void InitializeProperties()
         {            
             UserName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\').Last();            
             PcName = Dns.GetHostName();            
@@ -53,8 +58,8 @@ namespace JarochosDev.WindowsActivityAgent.Common
         {
             var message = $"PowerModeChangedEvent:{e.Mode},{UserName},{PcName},{IP}";
             LogManager.Log(message);                                   
-        }        
-
+        } 
+        
         public void Stop()
         {
             SystemEvents.PowerModeChanged -= SystemEventsOnPowerModeChanged;

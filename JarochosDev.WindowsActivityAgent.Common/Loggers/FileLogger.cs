@@ -19,21 +19,21 @@ namespace JarochosDev.WindowsActivityAgent.Common.Loggers
                 Directory.CreateDirectory(DirectoryPath);
             }
 
-            var fileName = "log_" + DateTime.Now.ToString("dd-MM-yyyy") + ".txt";
+            var fileName = "log_" + DateTime.UtcNow.ToString("dd-MM-yyyy") + ".txt";
             var fullFileName = Path.Combine(DirectoryPath, fileName);
 
             if(!File.Exists(fullFileName))
             {
                 using (StreamWriter sw = File.CreateText(fullFileName))
                 {
-                    sw.WriteLine(DateTime.Now + "     " + message);
+                    sw.WriteLine(DateTime.UtcNow + "     " + message);
                 }
             }
             else
             {
                 using(StreamWriter sw = File.AppendText(fullFileName))
                 {
-                    sw.WriteLine(DateTime.Now + "     " + message);
+                    sw.WriteLine(DateTime.UtcNow + "     " + message);
                 }
             }
         }

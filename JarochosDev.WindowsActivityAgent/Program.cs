@@ -21,6 +21,7 @@ namespace JarochosDev.WindowsActivityAgent
 
             var windowsSystemEventService = new WindowsSystemEventService(new WindowsSystemEventListener(logManager));
             windowsSystemEventService.Start();
+            windowsSystemEventService.Start();
             Console.WriteLine("Ivanna Marquez");
             Console.WriteLine("Fernando Villafuerte");
             Console.ReadLine();
