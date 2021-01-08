@@ -26,6 +26,7 @@ namespace JarochosDev.WindowsActivityAgent
             Console.WriteLine("Fernando Villafuerte");
             Console.ReadLine();
             windowsSystemEventService.Stop();
+            windowsSystemEventService.Stop();
         }
     }
 }

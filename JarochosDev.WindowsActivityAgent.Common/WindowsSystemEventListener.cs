@@ -62,9 +62,13 @@ namespace JarochosDev.WindowsActivityAgent.Common
         
         public void Stop()
         {
-            SystemEvents.PowerModeChanged -= SystemEventsOnPowerModeChanged;
-            SystemEvents.SessionSwitch -= SystemEventsOnSessionSwitch;
-            SystemEvents.SessionEnded -= SystemEventsOnSessionEnded;
+            if (Control != false)
+            {
+                SystemEvents.PowerModeChanged -= SystemEventsOnPowerModeChanged;
+                SystemEvents.SessionSwitch -= SystemEventsOnSessionSwitch;
+                SystemEvents.SessionEnded -= SystemEventsOnSessionEnded;
+                Control = false;
+            }
         }
     }
 }
