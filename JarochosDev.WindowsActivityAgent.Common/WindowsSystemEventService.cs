@@ -15,11 +15,19 @@ namespace JarochosDev.WindowsActivityAgent.Common
 
         public void Start()
         {
+            WindowsSystemEventListener.NewWindowsEventHandler += OnNewEventHandler;
             WindowsSystemEventListener.Start();
+        }
+
+        private void OnNewEventHandler(object sender, WindowsEvent e)
+        {
+            Console.WriteLine("New Event: " + e.Type + " " + e.Reason + " " + e.User.Name);
+            //Send to save in a database
         }
 
         public void Stop()
         {
+            WindowsSystemEventListener.NewWindowsEventHandler -= OnNewEventHandler;
             WindowsSystemEventListener.Stop();
         }
     }

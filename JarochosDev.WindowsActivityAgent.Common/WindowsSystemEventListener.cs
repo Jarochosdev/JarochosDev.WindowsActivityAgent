@@ -6,20 +6,18 @@ using JarochosDev.WindowsActivityAgent.Common.Loggers;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using JarochosDev.WindowsActivityAgent.Common.Models;
 
 namespace JarochosDev.WindowsActivityAgent.Common
 {
     public class WindowsSystemEventListener
-    {
-        public LogManager LogManager { get; }
+    {        
         public string UserName { get; private set; }
         public string PcName { get; private set; }
         public string IP { get; private set; }
+        public string Email { get; private set; }
         public bool IsInitialized { get; private set; }
-        public WindowsSystemEventListener(LogManager logManager)
-        {
-            LogManager = logManager;
-        }
+        public EventHandler<WindowsEvent> NewWindowsEventHandler;        
 
         public void Start()
         {
@@ -40,24 +38,22 @@ namespace JarochosDev.WindowsActivityAgent.Common
             IP = Dns.GetHostAddresses(Dns.GetHostName())
                  .Where(IPA => IPA.AddressFamily == AddressFamily.InterNetwork)
                  .Select(x => x.ToString()).FirstOrDefault();
+            Email = "";
         }
 
         private void SystemEventsOnSessionEnded( object sender, SessionEndedEventArgs e)
-        {
-            var message = $"SessionEndedEvent:{e.Reason},{UserName},{PcName},{IP}";
-            LogManager.Log(message);           
+        {                       
+            NewWindowsEventHandler.Invoke(this, BuildwindowsEvent("SessionEndedEvent", e.Reason.ToString()));
         }
-
+        
         private void SystemEventsOnSessionSwitch(object sender, SessionSwitchEventArgs e)
-        {
-            var message = $"SessionSwitchEvent:{e.Reason},{UserName},{PcName},{IP}";
-            LogManager.Log(message);                       
+        {                      
+            NewWindowsEventHandler.Invoke(this, BuildwindowsEvent("SessionSwitchEvent", e.Reason.ToString());
         }
 
         private void SystemEventsOnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
-        {
-            var message = $"PowerModeChangedEvent:{e.Mode},{UserName},{PcName},{IP}";
-            LogManager.Log(message);                                   
+        {                       
+            NewWindowsEventHandler.Invoke(this, BuildwindowsEvent("PowerModeChangedEvent", e.Mode.ToString()));
         } 
         
         public void Stop()
@@ -69,6 +65,20 @@ namespace JarochosDev.WindowsActivityAgent.Common
                 SystemEvents.SessionEnded -= SystemEventsOnSessionEnded;
                 IsInitialized = false;
             }
+        }
+
+        private WindowsEvent BuildwindowsEvent(string eventType, string eventReason)
+        {           
+            var windowsEvent = new WindowsEvent()
+            {
+                DateTime = DateTime.UtcNow,
+                Machine = new Machine() { IP = IP, Name = PcName },
+                Reason = eventReason,
+                Type = eventType,
+                User = new User(){Name = UserName, Email = Email },
+            };
+           
+            return windowsEvent;
         }
     }
 }

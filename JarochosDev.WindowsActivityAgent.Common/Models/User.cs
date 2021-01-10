@@ -4,20 +4,9 @@ using System.Text;
 
 namespace JarochosDev.WindowsActivityAgent.Common.Models
 {
-    class User
+    public class User
     {
         public string Name { get; set;}
-        public string Email { get; set;}
-        public string Role { get; set;}
-
-        public void LogIn()
-        {
-
-        }
-
-        public void LogOut()
-        {
-
-        }
+        public string Email { get; set;}        
     }
 }

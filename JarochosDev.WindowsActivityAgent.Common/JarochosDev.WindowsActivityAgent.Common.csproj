@@ -45,8 +45,10 @@
     <Compile Include="Loggers\FileLogger.cs" />
     <Compile Include="Loggers\ICustomLogger.cs" />
     <Compile Include="Loggers\LogManager.cs" />
+    <Compile Include="Models\Machine.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\WindowsEvent.cs" />
     <Compile Include="WindowsSystemEventListener.cs" />
     <Compile Include="WindowsSystemEventService.cs" />
   </ItemGroup>
