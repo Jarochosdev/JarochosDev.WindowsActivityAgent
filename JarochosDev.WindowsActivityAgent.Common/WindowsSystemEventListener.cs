@@ -15,7 +15,7 @@ namespace JarochosDev.WindowsActivityAgent.Common
         public string UserName { get; private set; }
         public string PcName { get; private set; }
         public string IP { get; private set; }
-        public bool Control { get; private set; }
+        public bool IsInitialized { get; private set; }
         public WindowsSystemEventListener(LogManager logManager)
         {
             LogManager = logManager;
@@ -23,13 +23,13 @@ namespace JarochosDev.WindowsActivityAgent.Common
 
         public void Start()
         {
-            if (Control != true)
+            if (IsInitialized == false)
             {
                 SystemEvents.PowerModeChanged += SystemEventsOnPowerModeChanged;
                 SystemEvents.SessionSwitch += SystemEventsOnSessionSwitch;
                 SystemEvents.SessionEnded += SystemEventsOnSessionEnded;
                 InitializeProperties();
-                Control = true;
+                IsInitialized = true;
             }
         }
 
@@ -62,12 +62,12 @@ namespace JarochosDev.WindowsActivityAgent.Common
         
         public void Stop()
         {
-            if (Control != false)
+            if (IsInitialized == true)
             {
                 SystemEvents.PowerModeChanged -= SystemEventsOnPowerModeChanged;
                 SystemEvents.SessionSwitch -= SystemEventsOnSessionSwitch;
                 SystemEvents.SessionEnded -= SystemEventsOnSessionEnded;
-                Control = false;
+                IsInitialized = false;
             }
         }
     }
